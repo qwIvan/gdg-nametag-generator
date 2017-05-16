@@ -1,2 +1,5 @@
 namelist
 namelist-*
+*.swp
+.ropeproject/
+page-*.png

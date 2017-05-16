@@ -4,7 +4,7 @@ template_img = Image.open('template.png')
 width = template_img.width
 height = template_img.height
 
-def gen(name, role, template):
+def gen(template, name, role, number=''):
     image = Image.open(template)
     draw = ImageDraw.Draw(image)
     font = ImageFont.truetype("FZXH1K.TTF", width // 4)
@@ -15,9 +15,14 @@ def gen(name, role, template):
     w, h = draw.textsize(name, font)
     draw.text((width * .54, height * .07),
               role, (137, 137, 137), font)
+    font = ImageFont.truetype("FZXH1K.TTF", width // 30)
+    w, h = draw.textsize(name, font)
+    draw.text((width * .9, height * .8),
+              number, (90, 90, 90), font)
+    # image.save('test/'+name+'.png')
     return image
 
-tags = (gen(*line.rsplit(maxsplit=1), 'template.png') for line in open('namelist'))
+tags = (gen('template.png', *line.rsplit(maxsplit=2)) for line in open('namelist'))
 
 count = 0
 last = False
@@ -28,7 +33,7 @@ while not last:
             try:
                 tag = next(tags)
             except StopIteration:
-                tag = gen('', 'Member', 'template.png')
+                tag = gen('template.png', '', 'Member')
                 last = True
             img.paste(tag, (width * w, height * h))
     count += 1
